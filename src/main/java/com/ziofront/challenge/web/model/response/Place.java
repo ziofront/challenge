@@ -1,4 +1,4 @@
-package com.ziofront.challenge.web.model;
+package com.ziofront.challenge.web.model.response;
 
 import lombok.Builder;
 import lombok.Data;

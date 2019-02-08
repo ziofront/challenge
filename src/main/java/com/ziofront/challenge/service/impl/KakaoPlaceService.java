@@ -1,18 +1,40 @@
 package com.ziofront.challenge.service.impl;
 
+import com.ziofront.challenge.client.KakaoMapClient;
+import com.ziofront.challenge.client.vo.kakaomap.KeywordResponse;
 import com.ziofront.challenge.service.PlaceService;
-import com.ziofront.challenge.web.model.Place;
+import com.ziofront.challenge.web.model.response.Place;
 import org.springframework.stereotype.Service;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class KakaoPlaceService implements PlaceService {
 
     @Override
-    public List<Place> findByKeyword(String keyword) {
+    public List<Place> findByKeyword(String keyword) throws IOException {
 
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://dapi.kakao.ceom/").addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        Map queryMap = new HashMap<String, String>();
+        queryMap.put("query", keyword);
+//        queryMap.put("y", "37.514322572335935");
+//        queryMap.put("x", "127.06283102249932");
+//        queryMap.put("radius", "20000");
+
+        KakaoMapClient service = retrofit.create(KakaoMapClient.class);
+        Response<KeywordResponse> response = service.findPlaceByKeyword(queryMap).execute();
+
+//        response.body().getDocuments()
 
         // TODO 일단은 임시 하드 코딩
 
@@ -26,5 +48,13 @@ public class KakaoPlaceService implements PlaceService {
 
 
         return list;
+    }
+
+    @Override
+    public List<Place> findByKeyword(String keyword, int page) {
+
+
+
+        return null;
     }
 }

@@ -1,6 +1,6 @@
 package com.ziofront.challenge.service;
 
-import com.ziofront.challenge.web.model.Place;
+import com.ziofront.challenge.web.model.response.Place;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ public class TestPlaceService {
     PlaceService placeService;
 
     @Test
-    public void test1FindByKeyword() {
+    public void test1FindByKeyword() throws Exception {
 
         List<Place> list = placeService.findByKeyword("카카오오오");
 

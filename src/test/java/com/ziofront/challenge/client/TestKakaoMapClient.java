@@ -1,10 +1,11 @@
 package com.ziofront.challenge.client;
 
-import com.ziofront.challenge.client.vo.KeywordResponse;
+import com.google.gson.GsonBuilder;
+import com.ziofront.challenge.client.vo.kakaomap.KeywordResponse;
+import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -19,39 +20,56 @@ public class TestKakaoMapClient {
 
     private static Logger LOG = LoggerFactory.getLogger(TestKakaoMapClient.class);
 
+    private Retrofit retrofit;
 
-    @Test
-    public void test1FindPlaceByKeyword() throws IOException {
-        Retrofit retrofit = new Retrofit.Builder()
+    @Before
+    public void init() {
+        retrofit = new Retrofit.Builder()
                 .baseUrl("https://dapi.kakao.com/").addConverterFactory(GsonConverterFactory.create())
                 .build();
+    }
 
-        KakaoMapClient service = retrofit.create(KakaoMapClient.class);
+    @Test
+    public void test1_FindPlaceByKeyword() throws IOException {
 
         Map queryMap = new HashMap<String, String>();
         queryMap.put("query", "카카오프렌즈");
 //        queryMap.put("y", "37.514322572335935");
 //        queryMap.put("x", "127.06283102249932");
 //        queryMap.put("radius", "20000");
-        Call<KeywordResponse> response = service.findPlaceByKeyword(queryMap);
 
-        LOG.debug("response.request().headers()={}", response.request().headers());
-        LOG.debug("response={}", response.request());
-        LOG.debug("response.isExecuted()={}", response.isExecuted());
+        KakaoMapClient service = retrofit.create(KakaoMapClient.class);
+        Response<KeywordResponse> response = service.findPlaceByKeyword(queryMap).execute();
 
-        Response<KeywordResponse> response2 = response.execute();
+        assertEquals(200, response.code());
 
-        LOG.debug("response.isExecuted()={}", response.isExecuted());
-        LOG.debug("response2.isSuccessful()={}", response2.isSuccessful());
-        LOG.debug("response2.body()={}", response2.body());
-        LOG.debug("response2.errorBody()={}", response2.errorBody());
-        LOG.debug("response2.code()={}", response2.code());
-        LOG.debug("response2.raw()={}", response2.raw());
+        LOG.debug("response.isSuccessful()={}", response.isSuccessful());
+        LOG.debug("response.body()={}", new GsonBuilder().setPrettyPrinting().create().toJson(response.body()));
+        LOG.debug("response.errorBody()={}", response.errorBody());
+        LOG.debug("response.code()={}", response.code());
+        LOG.debug("response.raw()={}", response.raw());
 
-
-        assertEquals(200, response2.code());
 
 
     }
+
+//
+//    @Test
+//    public void test2_FindPlaceByKeyword() throws IOException {
+//
+//        KakaoMapClient service = retrofit.create(KakaoMapClient.class);
+//
+//        Response<KeywordResponse> response = service.findPlaceByKeyword("카카오프렌즈").execute();
+//
+//        LOG.debug("response.isSuccessful()={}", response.isSuccessful());
+//        LOG.debug("response.body()={}", new GsonBuilder().setPrettyPrinting().create().toJson(response.body()));
+//        LOG.debug("response.errorBody()={}", response.errorBody());
+//        LOG.debug("response.code()={}", response.code());
+//        LOG.debug("response.raw()={}", response.raw());
+//
+//        assertEquals(200, response.code());
+//
+//
+//    }
 
 }

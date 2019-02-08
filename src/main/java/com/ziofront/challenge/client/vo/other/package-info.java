@@ -1,0 +1,1 @@
+package com.ziofront.challenge.client.vo.other;
