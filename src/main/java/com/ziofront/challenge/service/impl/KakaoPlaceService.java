@@ -22,7 +22,7 @@ public class KakaoPlaceService implements PlaceService {
     public List<Place> findByKeyword(String keyword) throws IOException {
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://dapi.kakao.ceom/").addConverterFactory(GsonConverterFactory.create())
+                .baseUrl("https://dapi.kakao.com/").addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         Map queryMap = new HashMap<String, String>();
@@ -34,17 +34,17 @@ public class KakaoPlaceService implements PlaceService {
         KakaoMapClient service = retrofit.create(KakaoMapClient.class);
         Response<KeywordResponse> response = service.findPlaceByKeyword(queryMap).execute();
 
-//        response.body().getDocuments()
-
-        // TODO 일단은 임시 하드 코딩
-
         List<Place> list = new ArrayList<Place>();
 
-        list.add(Place.builder().id("1").name("서울시").x("74895652").y("77885566").url("http://abc.com").build());
-        list.add(Place.builder().id("2").name("수원시").x("78320000").y("12358333").url("http://www.hello.com").build());
-        list.add(Place.builder().id("4").name("부산시").x("21463883").y("12028894").url("http://www.world.com").build());
-        list.add(Place.builder().id("3").name("용인시").x("45248935").y("65465909").url("http://kakao.co.kr").build());
-        list.add(Place.builder().id("5").name("해남군").x("68753355").y("09090786").url("http://popo.net").build());
+        response.body().getDocuments().forEach(it -> list.add(Place.builder().id(it.getId()).name(it.getPlaceName()).x(it.getX()).y(it.getY()).url(it.getPlaceUrl()).build()));
+
+
+
+//        list.add(Place.builder().id("1").name("서울시").x("74895652").y("77885566").url("http://abc.com").build());
+//        list.add(Place.builder().id("2").name("수원시").x("78320000").y("12358333").url("http://www.hello.com").build());
+//        list.add(Place.builder().id("4").name("부산시").x("21463883").y("12028894").url("http://www.world.com").build());
+//        list.add(Place.builder().id("3").name("용인시").x("45248935").y("65465909").url("http://kakao.co.kr").build());
+//        list.add(Place.builder().id("5").name("해남군").x("68753355").y("09090786").url("http://popo.net").build());
 
 
         return list;
@@ -52,7 +52,6 @@ public class KakaoPlaceService implements PlaceService {
 
     @Override
     public List<Place> findByKeyword(String keyword, int page) {
-
 
 
         return null;

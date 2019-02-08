@@ -1,8 +1,12 @@
 package com.ziofront.challenge.web.controller;
 
+import com.google.gson.GsonBuilder;
+import com.ziofront.challenge.client.TestKakaoMapClient;
 import com.ziofront.challenge.web.model.response.Place;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -13,6 +17,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class TestPlaceController extends AbstractTestController {
+
+    private static Logger LOG = LoggerFactory.getLogger(TestPlaceController.class);
+
 
     @Override
     @Before
@@ -32,6 +39,8 @@ public class TestPlaceController extends AbstractTestController {
         String content = mvcResult.getResponse().getContentAsString();
         List<Place> list = super.mapFromJson(content, List.class);
 
+        LOG.debug("list={}", new GsonBuilder().setPrettyPrinting().create().toJson(list));
+
         assertTrue(list != null);
         assertTrue(list.size() > 0);
     }
@@ -47,6 +56,8 @@ public class TestPlaceController extends AbstractTestController {
 
         String content = mvcResult.getResponse().getContentAsString();
         List<Place> list = super.mapFromJson(content, List.class);
+
+        LOG.debug("list={}", new GsonBuilder().setPrettyPrinting().create().toJson(list));
 
         assertTrue(list != null);
         assertTrue(list.size() > 0);
