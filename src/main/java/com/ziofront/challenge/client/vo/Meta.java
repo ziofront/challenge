@@ -4,8 +4,8 @@ import lombok.Data;
 
 @Data
 public class Meta {
-    int total_count;
-    int pageable_count;
-    boolean is_end;
-    SameName same_name;
+    private int total_count;
+    private int pageable_count;
+    private boolean is_end;
+    private SameName same_name;
 }

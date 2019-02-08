@@ -36,8 +36,8 @@ public class TestRepository {
     }
 
     @Test
-    public void findUserByLoginId() {
-        User user = userRepository.findByLoginId("test4");
+    public void test1FindUserByLoginId() {
+        User user = userRepository.findByLoginId("test2");
         assertTrue(user != null);
     }
 }
