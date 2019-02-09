@@ -42,12 +42,12 @@ public class TestPlaceController extends AbstractTestController {
         LOG.debug("list={}", new GsonBuilder().setPrettyPrinting().create().toJson(list));
 
         assertTrue(list != null);
-        assertTrue(list.size() > 0);
+        assertTrue(list.size() <= 0);
     }
 
     @Test
     public void test2FindByKeyword() throws Exception {
-        String uri = "/api/place/find2?keyword=카카오프렌즈";
+        String uri = "/api/place/find2?keyword=카카오프렌즈&page=3";
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
 
         int status = mvcResult.getResponse().getStatus();
