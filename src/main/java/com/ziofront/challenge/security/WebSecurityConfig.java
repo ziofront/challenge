@@ -29,15 +29,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        // super.configure(auth);
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        // super.configure(web);
         web.ignoring().antMatchers("/resources/**");
-
     }
 
     @Override
@@ -48,20 +45,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/**").hasRole("BASIC")
                 .anyRequest().authenticated()
+
                 .and()
                 .formLogin()
                 .loginPage("/login") // default
-                .loginProcessingUrl("/authenticate")
+                .loginProcessingUrl("/login")
                 .failureUrl("/login?error") // default
-                .defaultSuccessUrl("/home")
-                .usernameParameter("email")
+                .defaultSuccessUrl("/hello")
+                .usernameParameter("username")
                 .passwordParameter("password")
                 .permitAll()
+
                 .and()
                 .logout()
                 .logoutUrl("/logout") // default
                 .logoutSuccessUrl("/login")
                 .permitAll()
+
                 /*
                     로컬 H2 설정
                  */
@@ -71,11 +71,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anonymous()
                 .anyRequest()
                 .permitAll()
+
                 .and()
                 .headers().frameOptions().sameOrigin()
+
                 .and()
                 .csrf().ignoringAntMatchers("/h2-console/**").disable()
         ;
+
+        http.authorizeRequests().antMatchers("/hello/**").anonymous().anyRequest().permitAll();
 
     }
 }

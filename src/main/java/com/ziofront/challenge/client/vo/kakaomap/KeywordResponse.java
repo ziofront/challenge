@@ -1,6 +1,5 @@
 package com.ziofront.challenge.client.vo.kakaomap;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
