@@ -1,4 +1,4 @@
-package com.ziofront.challenge.client.vo.kakaomap;
+package com.ziofront.challenge.vo.external.kakaomap;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,4 +1,4 @@
-package com.ziofront.challenge.client.vo.kakaomap;
+package com.ziofront.challenge.vo.external.kakaomap;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;

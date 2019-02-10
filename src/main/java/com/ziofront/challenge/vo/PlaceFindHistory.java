@@ -17,6 +17,7 @@ public class PlaceFindHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+
     @Column(name = "SEARCH_SEQ")
     private long seq;
 
