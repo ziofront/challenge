@@ -2,7 +2,7 @@ package com.ziofront.challenge.service.impl;
 
 import com.ziofront.challenge.client.KakaoMapClient;
 import com.ziofront.challenge.client.vo.kakaomap.KeywordResponse;
-import com.ziofront.challenge.service.PlaceService;
+import com.ziofront.challenge.service.PlaceFindService;
 import com.ziofront.challenge.vo.Place;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class KakaoPlaceService implements PlaceService {
+public class KakaoPlaceService implements PlaceFindService {
 
     @Override
     public Place findByKeyword(String keyword, Pageable pageable) throws IOException {

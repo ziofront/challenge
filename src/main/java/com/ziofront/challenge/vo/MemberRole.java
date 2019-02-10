@@ -11,10 +11,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
 public class MemberRole {
 
     @Id
