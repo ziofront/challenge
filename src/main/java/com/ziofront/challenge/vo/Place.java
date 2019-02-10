@@ -27,6 +27,10 @@ public class Place {
         private String x;
         private String y;
         private String url;
+        private String phone;
+        private String address1;
+        private String address2;
+        private String categoryName;
     }
 
 
