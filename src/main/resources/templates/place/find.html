@@ -3,6 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title>find form</title>
+    <style>
+    .pagination {
+      display: inline-block;
+    }
+
+    .pagination a {
+      color: black;
+      float: left;
+      padding: 8px 16px;
+      text-decoration: none;
+      transition: background-color .3s;
+      border: 1px solid #ddd;
+    }
+
+    .pagination a.active {
+      background-color: #4CAF50;
+      color: white;
+      border: 1px solid #4CAF50;
+    }
+
+    .pagination a:hover:not(.active) {background-color: #ddd;}
+    </style>
     <script src="/webjars/jquery/2.2.4/dist/jquery.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
@@ -27,9 +49,11 @@
                     }
                     , success: function(result) {
                         // 요청 완료 시
+
+                        console.log("result.totalCount=" + result.totalCount);
+
                         $.each(result.placeList, function(idx, place){
                             console.log(idx + " " + place.name + " " + place.y + " " + place.x);
-
                             var _url = "http://map.daum.net/link/map/" + place.name + "," + place.y + "," + place.x;
 
 					        $('#divFindResult ul').append('<li>' + place.name + ' <a target="_blank" href="' + _url + '">[지도 바로가기]</a></li>');
@@ -63,6 +87,17 @@
     <input id="btnFind" class="login-btn waves-effect waves-light btn" type="button" value="검색"/>
 
     <div id="divFindResult"><ul></ul></div>
+
+    <div id="divFindResultPagination" class="pagination">
+        <a href="#">&laquo;</a>
+        <a href="#">1</a>
+        <a href="#" class="active">2</a>
+        <a href="#">3</a>
+        <a href="#">4</a>
+        <a href="#">5</a>
+        <a href="#">6</a>
+        <a href="#">&raquo;</a>
+    </div>
 
 
 </body>

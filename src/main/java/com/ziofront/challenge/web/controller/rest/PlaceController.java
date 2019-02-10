@@ -31,7 +31,30 @@ public class PlaceController {
 
         LOG.debug("keyword={}, pageable={}", keyword, pageable);
         Place place = placeService.findByKeyword(keyword, pageable);
+
         return place;
+
+//        maxDisplayPage = 7;
+//        currentPage = 17
+//        totalCount = 1230;
+//        pageSize = 10;
+//        totalPage = parseInt(totalCount / pageSize);
+//        totalPage = (totalCount % pageSize > 0) ? totalPage + 1 : totalPage;
+//        console.info('totalPage=' + totalPage);
+//
+//        totalPageSet = parseInt(totalPage / maxDisplayPage);
+//        totalPageSet = (totalPage % maxDisplayPage > 0) ? totalPageSet + 1 : totalPageSet;
+//        console.info('totalPageSet=' + totalPageSet);
+//
+//        currentPageSet = parseInt((pageSize * currentPage) / (maxDisplayPage * pageSize )) + 1;
+//        console.info('currentPageSet=' + currentPageSet);
+//
+//        endPageNo = currentPageSet * maxDisplayPage;
+//        console.info('endPageNo=' + endPageNo);
+//
+//        startPageNo = endPageNo - maxDisplayPage + 1;
+//        console.info('startPageNo=' + startPageNo);
+
     }
 
     @GetMapping("/top10")
