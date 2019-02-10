@@ -11,13 +11,12 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 
 @Component
-public class DataLoader implements ApplicationRunner {
-
+public class ApplicationTestDataLoader implements ApplicationRunner {
 
     private MemberService memberService;
 
     @Autowired
-    public DataLoader(MemberService memberService) {
+    public ApplicationTestDataLoader(MemberService memberService) {
         this.memberService = memberService;
     }
 

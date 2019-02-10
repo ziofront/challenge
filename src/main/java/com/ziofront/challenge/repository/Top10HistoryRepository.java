@@ -18,6 +18,8 @@ public interface Top10HistoryRepository extends CrudRepository<PlaceFindHistory,
                     "PLACE_SEARCH_HISTORY v "
             + " GROUP BY " +
                     "v.keyword "
+            + " ORDER BY cnt DESC, keyword "
+            + " LIMIT 10"
     )
     public List<Top10History> findPlaceFindHistoryCount();
 

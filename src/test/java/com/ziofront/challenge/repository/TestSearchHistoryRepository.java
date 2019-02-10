@@ -67,7 +67,7 @@ public class TestSearchHistoryRepository {
 
 
     @Test
-    public void test5_findCount() {
+    public void test5_findTop10Count() {
 
         List<Top10History> list = top10HistoryRepository.findPlaceFindHistoryCount();
 

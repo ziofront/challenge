@@ -43,7 +43,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/**").hasRole("BASIC")
+                .antMatchers("/api/**"
+                        , "/view/**").hasRole("BASIC")
                 .anyRequest().authenticated()
 
                 .and()
