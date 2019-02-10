@@ -1,14 +1,12 @@
 package com.ziofront.challenge.service;
 
-import com.ziofront.challenge.web.model.response.Place;
+import com.ziofront.challenge.vo.Place;
+import org.springframework.data.domain.Pageable;
 
 import java.io.IOException;
-import java.util.List;
 
 public interface PlaceService {
 
-    public List<Place> findByKeyword(String keyword) throws IOException;
-
-    public List<Place> findByKeyword(String keyword, int page);
+    public Place findByKeyword(String keyword, Pageable pageable) throws IOException;
 
 }

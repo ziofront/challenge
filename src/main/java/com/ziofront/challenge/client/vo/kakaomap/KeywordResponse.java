@@ -67,7 +67,7 @@ public class KeywordResponse {
         private String x;
         private String y;
 
-        @SerializedName("placeUrl")
+        @SerializedName("place_url")
         private String placeUrl;
         private String distance;
     }
