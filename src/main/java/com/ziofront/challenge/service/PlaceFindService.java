@@ -7,6 +7,13 @@ import java.io.IOException;
 
 public interface PlaceFindService {
 
+    /**
+     *
+     * @param keyword
+     * @param pageable
+     * @return
+     * @throws IOException
+     */
     public Place findByKeyword(String keyword, Pageable pageable) throws IOException;
 
 }

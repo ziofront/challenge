@@ -1,0 +1,1 @@
+package com.ziofront.challenge.vo.external.navermap;

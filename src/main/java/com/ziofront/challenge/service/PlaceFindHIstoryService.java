@@ -11,6 +11,10 @@ public class PlaceFindHIstoryService {
     @Autowired
     private PlaceFindHistoryRepository placeFindHistoryRepository;
 
+    /**
+     * 
+     * @param placeFindHistory
+     */
     public void saveHistory(PlaceFindHistory placeFindHistory) {
         placeFindHistoryRepository.save(placeFindHistory);
     }
