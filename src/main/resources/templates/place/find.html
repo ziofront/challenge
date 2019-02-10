@@ -25,9 +25,15 @@
                     , beforeSend: function(jqXHR) {
                         // 서버 요청 전 호출 되는 함수 return false; 일 경우 요청 중단
                     }
-                    , success: function(jqXHR) {
+                    , success: function(result) {
                         // 요청 완료 시
-                        alert(jqXHR);
+                        $.each(result.placeList, function(idx, place){
+                            console.log(idx + " " + place.name + " " + place.y + " " + place.x);
+
+                            var _url = "http://map.daum.net/link/map/" + place.name + "," + place.y + "," + place.x;
+
+					        $('#divFindResult ul').append('<li>' + place.name + ' <a target="_blank" href="' + _url + '">[지도 바로가기]</a></li>');
+		                });
                     }
                     , error: function(jqXHR) {
                         // 요청 실패
@@ -56,10 +62,7 @@
 
     <input id="btnFind" class="login-btn waves-effect waves-light btn" type="button" value="검색"/>
 
-    <div id="divFindResult">
-
-
-    </div>
+    <div id="divFindResult"><ul></ul></div>
 
 
 </body>
