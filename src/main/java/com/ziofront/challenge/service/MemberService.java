@@ -2,7 +2,6 @@ package com.ziofront.challenge.service;
 
 import com.ziofront.challenge.repository.MemberRepository;
 import com.ziofront.challenge.vo.Member;
-import com.ziofront.challenge.vo.Top10History;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;

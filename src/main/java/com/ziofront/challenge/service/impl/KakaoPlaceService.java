@@ -1,20 +1,19 @@
 package com.ziofront.challenge.service.impl;
 
-import com.ziofront.challenge.vo.external.kakaomap.KeywordRequest;
-import com.ziofront.challenge.vo.external.kakaomap.KeywordResponse;
 import com.ziofront.challenge.service.PlaceFindService;
 import com.ziofront.challenge.vo.Place;
-import com.ziofront.challenge.web.controller.rest.PlaceController;
+import com.ziofront.challenge.vo.external.kakaomap.KeywordResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.*;
+import retrofit2.http.GET;
+import retrofit2.http.Headers;
+import retrofit2.http.QueryMap;
 
 import java.io.IOException;
 import java.util.ArrayList;
