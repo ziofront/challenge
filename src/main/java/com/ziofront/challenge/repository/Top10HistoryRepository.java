@@ -11,6 +11,9 @@ import java.util.List;
 @Repository
 public interface Top10HistoryRepository extends CrudRepository<PlaceFindHistory, Long> {
 
+    /*
+        TODO 쿼리를 안쓰고 할 수 있는 방법이.. 있겠지...
+     */
     @Query(nativeQuery = true, value =
             "SELECT " +
                     " v.keyword as keyword, COUNT(v.keyword) as cnt"
