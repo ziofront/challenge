@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.assertTrue;
 
@@ -27,6 +28,7 @@ public class TestMemberRepository {
 
     @Test
     public void test0_initMemberData() {
+
         List<Member> userList = new ArrayList<Member>();
         userList.add(Member.builder().name("라이언").loginId("test1").loginPassword("1024").roles(Arrays.asList(MemberRole.builder().roleName("BASIC").build())).build());
         userList.add(Member.builder().name("무지").loginId("test2").loginPassword("2048").roles(Arrays.asList(MemberRole.builder().roleName("BASIC").build())).build());

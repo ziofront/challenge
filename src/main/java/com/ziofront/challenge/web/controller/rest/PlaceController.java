@@ -4,11 +4,14 @@ import com.ziofront.challenge.service.PlaceFindHIstoryService;
 import com.ziofront.challenge.service.PlaceFindService;
 import com.ziofront.challenge.vo.Place;
 import com.ziofront.challenge.vo.Top10History;
+import com.ziofront.challenge.web.utils.Pagination;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,35 +29,29 @@ public class PlaceController {
     private PlaceFindHIstoryService placeFindHIstoryService;
 
     @GetMapping("/find")
-    public Place find(@RequestParam(value = "keyword", defaultValue = "None") String keyword
-            , @PageableDefault(page = 1, size = 10) Pageable pageable) throws Exception {
+    public ResponseEntity find(@RequestParam(value = "keyword", defaultValue = "None") String keyword
+            , @PageableDefault(page = 1, size = 15) Pageable pageable
+            , Model model) throws Exception {
 
+        /*
+            카카오맵 api에 버그인건지.....
+            size를 15로 하지 않으면... 5 페이지 이후로 동일한 목록이 나온다...  아오....
+         */
         LOG.debug("keyword={}, pageable={}", keyword, pageable);
         Place place = placeService.findByKeyword(keyword, pageable);
 
-        return place;
+        Pagination pagination = Pagination.builder()
+                .currentPage(pageable.getPageNumber())
+                .totalCount(place.getTotalCount())
+                .pageSize(pageable.getPageSize())
 
-//        maxDisplayPage = 7;
-//        currentPage = 17
-//        totalCount = 1230;
-//        pageSize = 10;
-//        totalPage = parseInt(totalCount / pageSize);
-//        totalPage = (totalCount % pageSize > 0) ? totalPage + 1 : totalPage;
-//        console.info('totalPage=' + totalPage);
-//
-//        totalPageSet = parseInt(totalPage / maxDisplayPage);
-//        totalPageSet = (totalPage % maxDisplayPage > 0) ? totalPageSet + 1 : totalPageSet;
-//        console.info('totalPageSet=' + totalPageSet);
-//
-//        currentPageSet = parseInt((pageSize * currentPage) / (maxDisplayPage * pageSize )) + 1;
-//        console.info('currentPageSet=' + currentPageSet);
-//
-//        endPageNo = currentPageSet * maxDisplayPage;
-//        console.info('endPageNo=' + endPageNo);
-//
-//        startPageNo = endPageNo - maxDisplayPage + 1;
-//        console.info('startPageNo=' + startPageNo);
+                // TODO 아래 값은... 프로퍼티로 빼야 한다.
+                .paginationSize(6).build();
 
+        model.addAttribute("place", place);
+        model.addAttribute("pagination", pagination);
+
+        return ResponseEntity.ok(model);
     }
 
     @GetMapping("/top10")

@@ -10,9 +10,8 @@ public class LoginController {
 
     @GetMapping("/login")
     public String loginForm(HttpServletRequest request) {
-        String referer = request.getHeader("Referer");
 
-        request.getSession().setAttribute("prevPage", referer);
+        request.getSession().setAttribute("prevPage", request.getHeader("Referer"));
 
         return "login";
     }

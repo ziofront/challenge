@@ -3,6 +3,10 @@ package com.ziofront.challenge.service.impl;
 import com.ziofront.challenge.vo.external.kakaomap.KeywordResponse;
 import com.ziofront.challenge.service.PlaceFindService;
 import com.ziofront.challenge.vo.Place;
+import com.ziofront.challenge.web.controller.rest.PlaceController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import retrofit2.Call;
@@ -23,27 +27,24 @@ import java.util.Map;
 @Service
 public class KakaoPlaceService implements PlaceFindService {
 
+    private static Logger LOG = LoggerFactory.getLogger(KakaoPlaceService.class);
+
     public static interface KakaoMapClient {
 
         @Headers({
                 "Authorization: KakaoAK 7be88bfe34edc3201b0c8cfe53b68fdb"
         })
-        @GET("v2/local/search/keyword.json")
+        @GET("keyword.json")
         public Call<KeywordResponse> findPlaceByKeyword(@QueryMap Map<String, String> queryMap);
-
-
-        @Headers({
-                "Authorization: KakaoAK 7be88bfe34edc3201b0c8cfe53b68fdb"
-        })
-        @GET("v2/local/search/keyword.json")
-        public Call<KeywordResponse> findPlaceByKeyword(@Query("query") String keyword);
     }
 
     @Override
     public Place findByKeyword(String keyword, Pageable pageable) throws IOException {
 
+        LOG.debug("pageable={}",pageable);
+
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://dapi.kakao.com/").addConverterFactory(GsonConverterFactory.create())
+                .baseUrl("https://dapi.kakao.com/v2/local/search/").addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         Map queryMap = new HashMap<String, String>();
@@ -52,10 +53,33 @@ public class KakaoPlaceService implements PlaceFindService {
         queryMap.put("size", pageable.getPageSize());
 
         KakaoMapClient service = retrofit.create(KakaoMapClient.class);
+
+        LOG.debug("retrofit={}",retrofit);
+
+
+        Call<KeywordResponse> dd = service.findPlaceByKeyword(queryMap);
+        LOG.debug("dd.request().url()={}",dd.request().url());
+        LOG.debug("dd.request().cacheControl()={}",dd.request().cacheControl());
+
+
         Response<KeywordResponse> response = service.findPlaceByKeyword(queryMap).execute();
 
+        LOG.info("response.body()={}", response.body());
+        LOG.debug("response.message()={}",response.message());
+        LOG.debug("response.raw()=", response.raw());
+
         List<Place.Item> list = new ArrayList<Place.Item>();
-        response.body().getDocuments().forEach(it -> list.add(Place.Item.builder().id(it.getId()).name(it.getPlaceName()).x(it.getX()).y(it.getY()).url(it.getPlaceUrl()).build()));
+        response.body().getDocuments().forEach(it -> list.add(Place.Item
+                .builder()
+                .id(it.getId())
+                .name(it.getPlaceName())
+                .x(it.getX()).y(it.getY()).url(it.getPlaceUrl())
+                .phone(it.getPhone())
+                .address1(it.getAddressName()).address2(it.getRoadAddressName())
+                .categoryName(it.getCategoryName())
+                .build()));
+
+        LOG.info("response.body().getMeta().getTotalCount()={}", response.body().getMeta().getTotalCount());
 
         Place place = Place.builder().totalCount(response.body().getMeta().getTotalCount()).pageableCount(response.body().getMeta().getPageableCount()).placeList(list).build();
 

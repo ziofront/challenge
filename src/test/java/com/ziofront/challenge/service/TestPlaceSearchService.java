@@ -5,12 +5,14 @@ import com.ziofront.challenge.service.impl.KakaoPlaceService;
 import com.ziofront.challenge.vo.Place;
 import com.ziofront.challenge.vo.external.kakaomap.KeywordResponse;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
 import retrofit2.Response;
@@ -35,11 +37,9 @@ public class TestPlaceSearchService {
     PlaceFindService placeSearchService;
 
     @Test
-    public void test1FindByKeyword() throws Exception {
+    public void test1_FindByKeyword() throws Exception {
 
-        Pageable p = Pageable.unpaged();
-
-        Place place = placeSearchService.findByKeyword("하나은행", p);
+        Place place = placeSearchService.findByKeyword("하나은행", PageRequest.of(1,10));
 
         LOG.debug("place={}", new GsonBuilder().setPrettyPrinting().create().toJson(place));
 
@@ -50,20 +50,22 @@ public class TestPlaceSearchService {
     private Retrofit retrofit;
 
     @Before
-    public void init() {
+    public void test2_FindPlaceByKeyword_init() {
         retrofit = new Retrofit.Builder()
                 .baseUrl("https://dapi.kakao.com/").addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
 
     @Test
-    public void test1_FindPlaceByKeyword() throws IOException {
+    @Ignore
+    public void test2_FindPlaceByKeyword() throws IOException {
 
         Map queryMap = new HashMap<String, String>();
         queryMap.put("query", "카카오프렌즈");
 
         KakaoPlaceService.KakaoMapClient service = retrofit.create(KakaoPlaceService.KakaoMapClient.class);
         Response<KeywordResponse> response = service.findPlaceByKeyword(queryMap).execute();
+
 
         assertEquals(200, response.code());
 
@@ -72,8 +74,6 @@ public class TestPlaceSearchService {
         LOG.debug("response.errorBody()={}", response.errorBody());
         LOG.debug("response.code()={}", response.code());
         LOG.debug("response.raw()={}", response.raw());
-
-
 
     }
 
