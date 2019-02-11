@@ -1,5 +1,6 @@
 package com.ziofront.challenge.service.impl;
 
+import com.ziofront.challenge.vo.external.kakaomap.KeywordRequest;
 import com.ziofront.challenge.vo.external.kakaomap.KeywordResponse;
 import com.ziofront.challenge.service.PlaceFindService;
 import com.ziofront.challenge.vo.Place;
@@ -13,10 +14,7 @@ import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.GET;
-import retrofit2.http.Headers;
-import retrofit2.http.Query;
-import retrofit2.http.QueryMap;
+import retrofit2.http.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,13 +34,13 @@ public class KakaoPlaceService implements PlaceFindService {
         })
         @GET("keyword.json")
         public Call<KeywordResponse> findPlaceByKeyword(@QueryMap Map<String, String> queryMap);
+
     }
 
     @Override
     public Place findByKeyword(String keyword, Pageable pageable) throws IOException {
 
         LOG.debug("pageable={}",pageable);
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://dapi.kakao.com/v2/local/search/").addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -53,14 +51,6 @@ public class KakaoPlaceService implements PlaceFindService {
         queryMap.put("size", pageable.getPageSize());
 
         KakaoMapClient service = retrofit.create(KakaoMapClient.class);
-
-        LOG.debug("retrofit={}",retrofit);
-
-
-        Call<KeywordResponse> dd = service.findPlaceByKeyword(queryMap);
-        LOG.debug("dd.request().url()={}",dd.request().url());
-        LOG.debug("dd.request().cacheControl()={}",dd.request().cacheControl());
-
 
         Response<KeywordResponse> response = service.findPlaceByKeyword(queryMap).execute();
 
@@ -73,9 +63,12 @@ public class KakaoPlaceService implements PlaceFindService {
                 .builder()
                 .id(it.getId())
                 .name(it.getPlaceName())
-                .x(it.getX()).y(it.getY()).url(it.getPlaceUrl())
+                .x(it.getX())
+                .y(it.getY())
+                .url(it.getPlaceUrl())
                 .phone(it.getPhone())
-                .address1(it.getAddressName()).address2(it.getRoadAddressName())
+                .address1(it.getAddressName())
+                .address2(it.getRoadAddressName())
                 .categoryName(it.getCategoryName())
                 .build()));
 

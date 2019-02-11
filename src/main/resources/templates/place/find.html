@@ -30,6 +30,7 @@
 
         var findPlace = function(_page) {
 
+                console.log('_page='+ _page);
                 if(_page == undefined || _page == null || _page == '') {
                     _page = 1;
                 }
@@ -79,8 +80,7 @@
                                 activePage = 'class="active"';
                             }
 
-                            var tttt = '<a href="#" ' + activePage + ' onclick="findPlace(' + i + ')">' + i + '</a>';
-                            $('#divFindResultPagination').append(tttt);
+                            $('#divFindResultPagination').append('<a href="#" ' + activePage + ' onclick="findPlace(' + i + ')">' + i + '</a>');
 
                         }
 

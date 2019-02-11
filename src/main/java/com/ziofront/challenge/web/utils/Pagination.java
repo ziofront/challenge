@@ -7,18 +7,18 @@ import lombok.ToString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Optional;
+
 @ToString
+@Getter(AccessLevel.PUBLIC)
 public class Pagination {
 
     private static Logger LOG = LoggerFactory.getLogger(Pagination.class);
 
-    @Getter(AccessLevel.PUBLIC)
     private int paginationSize, currentPage, totalCount, pageSize;
 
-    @Getter(AccessLevel.PUBLIC)
     private int totalPage, totalPagination, currentPagination, beginPageNo, endPageNo, prevPageNo, nextPageNo;
 
-    @Getter(AccessLevel.PUBLIC)
     private boolean isPrev , isNext = false;
 
     @Builder
@@ -39,6 +39,7 @@ public class Pagination {
         totalPagination = (totalPage % paginationSize > 0) ? totalPagination + 1 : totalPagination;
 
         currentPagination = (pageSize * currentPage) / (paginationSize * pageSize);
+
         if (((pageSize * currentPage) % (paginationSize * pageSize)) > 0) {
             currentPagination += 1;
         }
@@ -61,19 +62,6 @@ public class Pagination {
             prevPageNo = beginPageNo - 1;
         }
 
-        LOG.info("totalCount={}", totalCount);
-        LOG.info("pageSize={}", pageSize);
-        LOG.info("paginationSize={}", paginationSize);
-        LOG.info("currentPage={}", currentPage);
-
-        LOG.info("totalPage={}", totalPage);
-        LOG.info("endPageNo={}", endPageNo);
-        LOG.info("beginPageNo={}", beginPageNo);
-        LOG.info("currentPagination={}", currentPagination);
-        LOG.info("totalPagination={}", totalPagination);
-        LOG.info("isPrev={}", isPrev);
-        LOG.info("isNext={}", isNext);
-        LOG.info("prevPageNo={}", prevPageNo);
-        LOG.info("nextPageNo={}", nextPageNo);
+        LOG.info("this={}", this);
     }
 }

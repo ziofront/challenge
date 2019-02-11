@@ -1,5 +1,6 @@
 package com.ziofront.challenge.vo.external.kakaomap;
 
+import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,7 +11,10 @@ import lombok.Data;
 public class KeywordRequest {
 
     private String query;
-    private String category_group_code;
+
+    @SerializedName("category_group_code")
+    private String categoryGroupCode;
+
     private String x;
     private String y;
     private int radius;
