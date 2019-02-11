@@ -11,12 +11,11 @@ import org.springframework.stereotype.Service;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    MemberRepository memberRepository;
+    private MemberRepository memberRepository;
 
     @Override
     public UserDetailsImpl loadUserByUsername(String loginId) throws UsernameNotFoundException {
         Member member = memberRepository.findByLoginId(loginId);
-//        return new UserDetailsImpl(member.getLoginId(), member.getLoginPassword(), "BASIC");
         return new UserDetailsImpl(member);
 
     }

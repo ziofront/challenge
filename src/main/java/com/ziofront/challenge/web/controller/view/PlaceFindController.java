@@ -12,4 +12,9 @@ public class PlaceFindController {
         return "place/find";
     }
 
+    @RequestMapping(value = "/top10")
+    public String top10() {
+        return "place/top10";
+    }
+
 }
