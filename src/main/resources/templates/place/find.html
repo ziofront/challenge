@@ -29,75 +29,74 @@
     <script type="text/javascript">
 
         var findPlace = function(_page) {
+            /*
+                이 방법 말고... 좀더 쌔련된 방법이 필요해..
+            */
+            console.log('_page='+ _page);
+            if(_page == undefined || _page == null || _page == '') {
+                _page = 1;
+            }
 
-                console.log('_page='+ _page);
-                if(_page == undefined || _page == null || _page == '') {
-                    _page = 1;
+            $.ajax({
+                url: '/api/place/find'
+                , async: true
+                , type: 'GET'
+                , data: {
+                    keyword : $('#keyword').val()
+                    , page : _page
                 }
+                , dataType: 'json'
+                , beforeSend: function(jqXHR) {
+                    $('#divFindResultList').empty();
+                    $('#divFindResultPagination').empty();
+                    $('#divFindResultDetail').empty();
+                }
+                , success: function(data) {
 
-                /*
-                    이 방법 말고... 좀더 쌔련된 방법이 필요해..
-                */
+                    $('#divFindResultList').append($('<h3>').text('장소 검색결과'));
 
-                $.ajax({
-                    url: '/api/place/find'
-                    , async: true
-                    , type: 'GET'
-                    , data: {
-                        // 전송할 데이터
-                        keyword : $('#keyword').val()
-                        , page : _page
-                    }
-                    , dataType: 'json' // xml, json, script, html
-                    , beforeSend: function(jqXHR) {
-                        $('#divFindResult ul').empty();
-                        $('#divFindResultPagination').empty();
-                        // 서버 요청 전 호출 되는 함수 return false; 일 경우 요청 중단
-                    }
-                    , success: function(data) {
-                        // 요청 완료 시
-
-                        var result = data.place;
-
-                        console.log("result.totalCount=" + result.totalCount);
-
-                        $.each(result.placeList, function(idx, place){
-                            console.log(idx + " " + place.name + " " + place.y + " " + place.x);
-                            var _url = "http://map.daum.net/link/map/" + place.name + "," + place.y + "," + place.x;
-
-					        $('#divFindResult ul').append('<li>' + place.name + ' <a target="_blank" href="' + _url + '">[지도 바로가기]</a></li>');
-		                });
-
-
-                        if(data.pagination.prev) {
-                            $('#divFindResultPagination').append('<a href="#" onclick="findPlace(' + data.pagination.prevPageNo + ')">&laquo;</a>');
-                        }
-
-                        for(var i = data.pagination.beginPageNo; i <= data.pagination.endPageNo; i++) {
-
-                            var activePage = '';
-                            if(data.pagination.currentPage == i) {
-                                activePage = 'class="active"';
+                    var result = data.place;
+                    $.each(result.placeList, function(idx, place){
+                        var newli = $('<li>', {
+                            click : function() {
+                                $('#divFindResultDetail').empty().append(
+                                    $('<h3>').text('장소 상세정보')
+                                    , $('<li>').text(place.name)
+                                    , $('<li>').text(place.x)
+                                    , $('<li>').text(place.y)
+                                    , $('<button>', {
+                                            click : function() {
+                                                window.open(place.mapUrl);
+                                            }
+                                    }).css('cursor', 'pointer').text('지도 바로가기')
+                                );
                             }
+                        }).text(place.name);
 
-                            $('#divFindResultPagination').append('<a href="#" ' + activePage + ' onclick="findPlace(' + i + ')">' + i + '</a>');
-
+                        $('#divFindResultList').append(newli);
+                    });
+                    if(data.pagination.prev) {
+                        $('#divFindResultPagination').append('<a href="#" onclick="findPlace(' + data.pagination.prevPageNo + ')">&laquo;</a>');
+                    }
+                    for(var i = data.pagination.beginPageNo; i <= data.pagination.endPageNo; i++) {
+                        var activePage = '';
+                        if(data.pagination.currentPage == i) {
+                            activePage = 'class="active"';
                         }
-
-
-                        if(data.pagination.next) {
-                            $('#divFindResultPagination').append('<a href="#" onclick="findPlace(' + data.pagination.nextPageNo + ')">&raquo;</a>');
-                        }
-
+                        $('#divFindResultPagination').append('<a href="#" ' + activePage + ' onclick="findPlace(' + i + ')">' + i + '</a>');
                     }
-                    , error: function(jqXHR) {
-                        // 요청 실패
+                    if(data.pagination.next) {
+                        $('#divFindResultPagination').append('<a href="#" onclick="findPlace(' + data.pagination.nextPageNo + ')">&raquo;</a>');
                     }
-                    , complete: function(jqXHR) {
-                        // 요청의 실패, 성공과 상관 없이 완료 될 경우 호출
-                    }
-                });
-            };
+                }
+                , error: function(jqXHR) {
+                    // 요청 실패
+                }
+                , complete: function(jqXHR) {
+                    // 요청의 실패, 성공과 상관 없이 완료 될 경우 호출
+                }
+            });
+        };
 
         $(document).ready(function() {
             $('#btnFind').click(function() {
@@ -122,20 +121,11 @@
 
     <input id="btnFind" class="login-btn waves-effect waves-light btn" type="button" value="검색"/>
 
-    <div id="divFindResult"><ul></ul></div>
+    <div id="divFindResultList"></div>
 
-    <div id="divFindResultPagination" class="pagination">
+    <div id="divFindResultPagination" class="pagination"></div>
 
-        <!--<a href="#">&laquo;</a>-->
-        <!--<a href="#">1</a>-->
-        <!--<a href="#" class="active">2</a>-->
-        <!--<a href="#">3</a>-->
-        <!--<a href="#">4</a>-->
-        <!--<a href="#">5</a>-->
-        <!--<a href="#">6</a>-->
-        <!--<a href="#">&raquo;</a>-->
-    </div>
-
+    <div id="divFindResultDetail"></div>
 
 </body>
 </html>

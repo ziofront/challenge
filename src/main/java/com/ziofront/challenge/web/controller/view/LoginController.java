@@ -1,4 +1,4 @@
-package com.ziofront.challenge.web.controller;
+package com.ziofront.challenge.web.controller.view;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

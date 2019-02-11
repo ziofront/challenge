@@ -18,9 +18,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/place")
-public class PlaceController {
+public class PlaceFindRestController {
 
-    private static Logger LOG = LoggerFactory.getLogger(PlaceController.class);
+    private static Logger LOG = LoggerFactory.getLogger(PlaceFindRestController.class);
 
     @Autowired
     private PlaceFindService placeService;

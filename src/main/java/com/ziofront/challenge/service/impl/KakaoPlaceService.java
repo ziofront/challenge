@@ -69,6 +69,7 @@ public class KakaoPlaceService implements PlaceFindService {
                 .address1(it.getAddressName())
                 .address2(it.getRoadAddressName())
                 .categoryName(it.getCategoryName())
+                .mapUrl("http://map.daum.net/link/map/" + it.getPlaceName() + "," + it.getY() + "," + it.getX())
                 .build()));
 
         LOG.info("response.body().getMeta().getTotalCount()={}", response.body().getMeta().getTotalCount());
