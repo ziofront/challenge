@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+/**
+ * @author jiho
+ */
 @Data
 @Builder
 @AllArgsConstructor

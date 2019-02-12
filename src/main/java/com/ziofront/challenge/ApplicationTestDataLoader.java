@@ -10,6 +10,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
+/**
+ * @author jiho
+ */
 @Component
 public class ApplicationTestDataLoader implements ApplicationRunner {
 

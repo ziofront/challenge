@@ -11,10 +11,61 @@
 </head>
 <body>
 
-    <h3>인기 검색어 TOP 10</h3>
+    <div class="container">
+        <h3>인기 검색어 TOP 10</h3>
+        <br/>
+        <div class="container" id="divTop10Result"></div>
+    </div>
 
 
     <script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $.ajax({
+                url: '/api/place/top10'
+                , async: true
+                , type: 'GET'
+                , dataType: 'json'
+                , success: function(data) {
+
+                    console.info('data=' + data);
+
+                    var tableTop10 = $('<table>', {class : 'table table-sm'}).append(
+                        $('<thead>').append(
+                            $('<tr>').append(
+                                $('<th>', {scope : 'col'}).text('TOP')
+                                , $('<th>', {scope : 'col'}).text('검색어')
+                                , $('<th>', {scope : 'col'}).text('검색횟수')
+                            )
+                        )
+                    );
+
+                    var tbodyContent = $('<tbody>');
+                    $.each(data
+                        , function(idx, rowItem) {
+                            tbodyContent.append(
+                                $('<tr>').append(
+                                    $('<td>').text(idx + 1)
+                                    , $('<td>').text(rowItem.keyword)
+                                    , $('<td>').text(rowItem.cnt)
+                                )
+                            );
+                        }
+                    );
+
+                    tableTop10.append(tbodyContent);
+
+                    $('#divTop10Result').append(tableTop10);
+                }
+                , error: function(jqXHR) {
+                    // 요청 실패
+                }
+                , complete: function(jqXHR) {
+                    // 요청의 실패, 성공과 상관 없이 완료 될 경우 호출
+                }
+            });
+        });
+    </script>
     <script src="/webjars/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="/webjars/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 

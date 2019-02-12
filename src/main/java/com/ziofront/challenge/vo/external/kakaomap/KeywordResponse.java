@@ -6,6 +6,9 @@ import lombok.Data;
 
 import java.util.List;
 
+/**
+ * @author jiho
+ */
 @Data
 @AllArgsConstructor
 public class KeywordResponse {

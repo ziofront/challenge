@@ -11,7 +11,9 @@ package com.ziofront.challenge.vo;
 //    }
 //}
 
-
+/**
+ * @author jiho
+ */
 public interface Top10History {
 
     String getKeyword();

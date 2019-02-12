@@ -17,7 +17,7 @@ public class Pagination {
 
     private int totalPage, totalPagination, currentPagination, beginPageNo, endPageNo, prevPageNo, nextPageNo;
 
-    private boolean isPrev , isNext = false;
+    private boolean isPrev, isNext = false;
 
     @Builder
     public Pagination(int paginationSize, int currentPage, int totalCount, int pageSize) {
@@ -50,12 +50,12 @@ public class Pagination {
             endPageNo = totalPage;
         }
 
-        if(endPageNo < totalPage) {
+        if (endPageNo < totalPage) {
             isNext = true;
             nextPageNo = endPageNo + 1;
         }
 
-        if(beginPageNo > paginationSize) {
+        if (beginPageNo > paginationSize) {
             isPrev = true;
             prevPageNo = beginPageNo - 1;
         }

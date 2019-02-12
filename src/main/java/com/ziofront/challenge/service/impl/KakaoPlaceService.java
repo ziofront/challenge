@@ -21,25 +21,28 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author jiho
+ */
 @Service
 public class KakaoPlaceService implements PlaceFindService {
 
     private static Logger LOG = LoggerFactory.getLogger(KakaoPlaceService.class);
 
-    public static interface KakaoMapClient {
+    public interface KakaoMapClient {
 
         @Headers({
                 "Authorization: KakaoAK 7be88bfe34edc3201b0c8cfe53b68fdb"
         })
         @GET("keyword.json")
-        public Call<KeywordResponse> findPlaceByKeyword(@QueryMap Map<String, String> queryMap);
+        Call<KeywordResponse> findPlaceByKeyword(@QueryMap Map<String, String> queryMap);
 
     }
 
     @Override
     public Place findByKeyword(String keyword, Pageable pageable) throws IOException {
 
-        LOG.debug("pageable={}",pageable);
+        LOG.debug("pageable={}", pageable);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://dapi.kakao.com/v2/local/search/").addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -54,7 +57,7 @@ public class KakaoPlaceService implements PlaceFindService {
         Response<KeywordResponse> response = service.findPlaceByKeyword(queryMap).execute();
 
         LOG.info("response.body()={}", response.body());
-        LOG.debug("response.message()={}",response.message());
+        LOG.debug("response.message()={}", response.message());
         LOG.debug("response.raw()=", response.raw());
 
         List<Place.Item> list = new ArrayList<Place.Item>();

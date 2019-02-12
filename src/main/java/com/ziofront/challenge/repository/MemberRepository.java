@@ -3,7 +3,10 @@ package com.ziofront.challenge.repository;
 import com.ziofront.challenge.vo.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+/**
+ * @author jiho
+ */
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
-    public Member findByLoginId(String loginId);
+    Member findByLoginId(String loginId);
 }

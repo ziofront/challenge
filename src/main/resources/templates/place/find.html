@@ -7,31 +7,44 @@
     <title>find form</title>
 
     <link rel="stylesheet" href="/webjars/bootstrap/4.2.1/css/bootstrap.min.css">
+</head>
+<body>
 
-    <!--<style>-->
-    <!--.pagination {-->
-      <!--display: inline-block;-->
-    <!--}-->
+<div class="container">
 
-    <!--.pagination a {-->
-      <!--color: black;-->
-      <!--float: left;-->
-      <!--padding: 8px 16px;-->
-      <!--text-decoration: none;-->
-      <!--transition: background-color .3s;-->
-      <!--border: 1px solid #ddd;-->
-    <!--}-->
 
-    <!--.pagination a.active {-->
-      <!--background-color: #4CAF50;-->
-      <!--color: white;-->
-      <!--border: 1px solid #4CAF50;-->
-    <!--}-->
+    <h3>장소 검색</h3>
 
-    <!--.pagination a:hover:not(.active) {background-color: #ddd;}-->
+    <div class="row">
+        <div class="col">
+            <form>
+                <div class="form-group">
+                    <label for="keyword">검색어</label>
+                    <input id="keyword" type="text" name="keyword" class="form-control" placeholder="장소명"/>
 
-    <!--</style>-->
+                    <small id="emailHelp" class="form-text text-muted">검색하고 싶은 장소를 입력해 주세요.</small>
+                </div>
+                <button id="btnFind" type="button" class="btn btn-primary">검색</button>
+            </form>
+        </div>
+    </div>
 
+    <br/>
+
+    <div class="row">
+        <div class="col">
+
+            <div id="divFindResultList"></div>
+
+            <div id="divFindResultPagination" class="pagination"></div>
+
+        </div>
+        <div class="col">
+            <div id="divFindResultDetail"></div>
+        </div>
+    </div>
+
+</div>
 
     <script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript">
@@ -90,10 +103,12 @@
                                         click : function() {
                                             $('#divFindResultDetail').empty().append(
                                                 $('<h3>').text(place.name)
-                                                , $('<li>').text(place.x)
-                                                , $('<li>').text(place.y)
+                                                , $('<li>').text(place.categoryName)
                                                 , $('<li>').text(place.address1)
                                                 , $('<li>').text(place.address2)
+                                                , $('<li>').text(place.phone)
+                                                , $('<li>').text(place.x)
+                                                , $('<li>').text(place.y)
                                                 , $('<button>', {
                                                         click : function() {
                                                             window.open(place.mapUrl);
@@ -174,51 +189,10 @@
                     findPlace(1, $('#keyword').val());
                     return false;
                 }
-            });
+            }).focus();
         });
-
     </script>
-
-</head>
-<body>
-
-<div class="container">
-
-
-    <h3>장소 검색</h3>
-
-    <div class="row">
-        <div class="col">
-            <form>
-                <div class="form-group">
-                    <label for="keyword">검색어</label>
-                    <input id="keyword" type="text" name="keyword" class="form-control" placeholder="장소명"/>
-
-                    <small id="emailHelp" class="form-text text-muted">검색하고 싶은 장소를 입력해 주세요.</small>
-                </div>
-                <button id="btnFind" type="button" class="btn btn-primary">검색</button>
-            </form>
-        </div>
-    </div>
-
-    <br/>
-
-    <div class="row">
-        <div class="col">
-
-            <div id="divFindResultList"></div>
-
-            <div id="divFindResultPagination" class="pagination"></div>
-
-        </div>
-        <div class="col">
-            <div id="divFindResultDetail"></div>
-        </div>
-    </div>
-
-</div>
-
-<script src="/webjars/popper.js/1.14.3/umd/popper.min.js"></script>
-<script src="/webjars/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+    <script src="/webjars/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="/webjars/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -8,6 +8,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * @author jiho
+ */
 @Repository
 public interface Top10HistoryRepository extends CrudRepository<PlaceFindHistory, Long> {
 
@@ -17,13 +20,13 @@ public interface Top10HistoryRepository extends CrudRepository<PlaceFindHistory,
     @Query(nativeQuery = true, value =
             "SELECT " +
                     " v.keyword as keyword, COUNT(v.keyword) as cnt"
-            + " FROM " +
+                    + " FROM " +
                     "PLACE_SEARCH_HISTORY v "
-            + " GROUP BY " +
+                    + " GROUP BY " +
                     "v.keyword "
-            + " ORDER BY cnt DESC, keyword "
-            + " LIMIT 10"
+                    + " ORDER BY cnt DESC, keyword "
+                    + " LIMIT 10"
     )
-    public List<Top10History> findPlaceFindHistoryCount();
+    List<Top10History> findPlaceFindHistoryCount();
 
 }

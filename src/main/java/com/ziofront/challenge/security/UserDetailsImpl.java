@@ -10,7 +10,9 @@ import org.springframework.security.core.userdetails.User;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * @author jiho
+ */
 public class UserDetailsImpl extends User {
 
     private static final String ROLE_PREFIX = "ROLE_";

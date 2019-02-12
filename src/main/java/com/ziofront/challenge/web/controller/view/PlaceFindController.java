@@ -3,6 +3,9 @@ package com.ziofront.challenge.web.controller.view;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+/**
+ * @author jiho
+ */
 @Controller
 @RequestMapping(value = "/view/place")
 public class PlaceFindController {

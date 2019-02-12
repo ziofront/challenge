@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * @author jiho
+ */
 @Service
 public class PlaceFindHIstoryService {
 
@@ -19,7 +22,6 @@ public class PlaceFindHIstoryService {
     private Top10HistoryRepository top10HistoryRepository;
 
     /**
-     * 
      * @param placeFindHistory
      */
     public PlaceFindHistory saveHistory(PlaceFindHistory placeFindHistory) {
@@ -27,7 +29,6 @@ public class PlaceFindHIstoryService {
     }
 
     /**
-     *
      * @return
      */
     public List<Top10History> findTop10History() {
