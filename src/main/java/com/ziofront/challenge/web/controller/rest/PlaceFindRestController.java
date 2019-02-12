@@ -34,8 +34,11 @@ public class PlaceFindRestController {
 
     @GetMapping("/find")
     public ResponseEntity find(@RequestParam(value = "keyword", defaultValue = "None") String keyword
-            , @PageableDefault(page = 1) Pageable pageable
+            // 카카오맵 api에 버그인건지 page size를 15로 하지 않으면 특정 페이지 이후로 동일한 목록이 나온다.
+            , @PageableDefault(page = 1, size = 15) Pageable pageable
             , Model model) throws Exception {
+
+        LOG.debug("pageable={}",pageable);
 
         Place place = placeService.findByKeyword(keyword, pageable);
 

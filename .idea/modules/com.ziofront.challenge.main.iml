@@ -18,7 +18,8 @@
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-devtools:2.1.2.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-security:2.1.2.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-thymeleaf:2.1.2.RELEASE" level="project" />
-    <orderEntry type="library" name="Gradle: org.webjars.bower:jquery:2.2.4" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars:bootstrap:4.2.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars:jquery:3.3.1" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-json:2.1.2.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-data-jpa:2.1.2.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-aop:2.1.2.RELEASE" level="project" />
@@ -46,6 +47,7 @@
     <orderEntry type="library" name="Gradle: org.springframework:spring-aop:5.1.4.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.thymeleaf:thymeleaf-spring5:3.0.11.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.thymeleaf.extras:thymeleaf-extras-java8time:3.0.2.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.webjars:popper.js:1.14.3" level="project" />
     <orderEntry type="library" name="Gradle: ch.qos.logback:logback-core:1.2.3" level="project" />
     <orderEntry type="library" name="Gradle: org.thymeleaf:thymeleaf:3.0.11.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: com.zaxxer:HikariCP:3.2.0" level="project" />

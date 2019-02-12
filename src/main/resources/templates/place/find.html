@@ -1,31 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <title>find form</title>
-    <style>
-    .pagination {
-      display: inline-block;
-    }
 
-    .pagination a {
-      color: black;
-      float: left;
-      padding: 8px 16px;
-      text-decoration: none;
-      transition: background-color .3s;
-      border: 1px solid #ddd;
-    }
+    <link rel="stylesheet" href="/webjars/bootstrap/4.2.1/css/bootstrap.min.css">
 
-    .pagination a.active {
-      background-color: #4CAF50;
-      color: white;
-      border: 1px solid #4CAF50;
-    }
+    <!--<style>-->
+    <!--.pagination {-->
+      <!--display: inline-block;-->
+    <!--}-->
 
-    .pagination a:hover:not(.active) {background-color: #ddd;}
-    </style>
-    <script src="/webjars/jquery/2.2.4/dist/jquery.min.js"></script>
+    <!--.pagination a {-->
+      <!--color: black;-->
+      <!--float: left;-->
+      <!--padding: 8px 16px;-->
+      <!--text-decoration: none;-->
+      <!--transition: background-color .3s;-->
+      <!--border: 1px solid #ddd;-->
+    <!--}-->
+
+    <!--.pagination a.active {-->
+      <!--background-color: #4CAF50;-->
+      <!--color: white;-->
+      <!--border: 1px solid #4CAF50;-->
+    <!--}-->
+
+    <!--.pagination a:hover:not(.active) {background-color: #ddd;}-->
+
+    <!--</style>-->
+
+
+    <script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript">
 
         var findPlace = function(_page) {
@@ -37,12 +45,18 @@
                 _page = 1;
             }
 
+            var _keyword = $('#keyword').val();
+            if(_keyword.length <= 0) {
+                alert('검색어를 입력하세요');
+                return;
+            }
+
             $.ajax({
                 url: '/api/place/find'
                 , async: true
                 , type: 'GET'
                 , data: {
-                    keyword : $('#keyword').val()
+                    keyword : _keyword
                     , page : _page
                 }
                 , dataType: 'json'
@@ -53,41 +67,93 @@
                 }
                 , success: function(data) {
 
-                    $('#divFindResultList').append($('<h3>').text('장소 검색결과'));
-
                     var result = data.place;
-                    $.each(result.placeList, function(idx, place){
-                        var newli = $('<li>', {
-                            click : function() {
-                                $('#divFindResultDetail').empty().append(
-                                    $('<h3>').text('장소 상세정보')
-                                    , $('<li>').text(place.name)
-                                    , $('<li>').text(place.x)
-                                    , $('<li>').text(place.y)
-                                    , $('<button>', {
-                                            click : function() {
-                                                window.open(place.mapUrl);
-                                            }
-                                    }).css('cursor', 'pointer').text('지도 바로가기')
-                                );
-                            }
-                        }).text(place.name);
 
-                        $('#divFindResultList').append(newli);
+                    console.info('result=' + result);
+
+                    var contentFindResultTable = $('<table>', {class : 'table table-sm'}).append(
+                        $('<thead>').append(
+                            $('<tr>').append(
+                                $('<th>', {scope : 'col', colspan : 2}).text('장소 검색결과')
+                            )
+                        )
+                    );
+
+                    var contentFindResultTableTbody = $('<tbody>');
+                    $.each(result.placeList, function(idx, place) {
+
+                        contentFindResultTableTbody.append(
+                            $('<tr>').append(
+                                $('<td>').text(place.name)
+                                , $('<td>').append(
+                                    $('<button>', {
+                                        click : function() {
+                                            $('#divFindResultDetail').empty().append(
+                                                $('<h3>').text(place.name)
+                                                , $('<li>').text(place.x)
+                                                , $('<li>').text(place.y)
+                                                , $('<li>').text(place.address1)
+                                                , $('<li>').text(place.address2)
+                                                , $('<button>', {
+                                                        click : function() {
+                                                            window.open(place.mapUrl);
+                                                        }
+                                                }).css('cursor', 'pointer').text('지도 바로가기')
+                                            )
+                                        }
+                                    }).text('상세정보')
+                                )
+                            )
+                        );
                     });
-                    if(data.pagination.prev) {
-                        $('#divFindResultPagination').append('<a href="#" onclick="findPlace(' + data.pagination.prevPageNo + ')">&laquo;</a>');
-                    }
+                    $('#divFindResultList').append(contentFindResultTable.append(contentFindResultTableTbody));
+
+                    var paginationNav = $('<nav>', {'aria-label' : 'Page navigation'});
+                    var paginationNavList = $('<ul>', {class : 'pagination justify-content-center'});
+                    paginationNavList.append(
+                        $('<li>', {
+                                class : data.pagination.prev ? 'page-item' : 'page-item disabled'
+                            }).append(
+                            $('<a>', {href : '#', class : 'page-link', 'aria-label' : 'next'
+                                , click : function() {
+                                    findPlace(data.pagination.prevPageNo);
+                                }}).append(
+                                $('<span>', {'aria-hidden' : true}).html('&laquo;')
+                            )
+                        )
+                    );
                     for(var i = data.pagination.beginPageNo; i <= data.pagination.endPageNo; i++) {
-                        var activePage = '';
+                        var liTag = $('<li>', {class : 'page-item'
+                            , class : (data.pagination.currentPage == i) ? 'page-item active' : 'page-item'
+                            ,  'aria-current' : (data.pagination.currentPage == i) ? 'page' : ''
+                        });
+
+                        var aTag = $('<a>', {href : '#', class : 'page-link'}).text(i);
                         if(data.pagination.currentPage == i) {
-                            activePage = 'class="active"';
+                            aTag.append('<span class="sr-only">(current)</span>');
+                        } else {
+                            aTag.bind('click', {page : i}
+                                        , function(event) {
+                                            findPlace(event.data.page);
+                                        });
                         }
-                        $('#divFindResultPagination').append('<a href="#" ' + activePage + ' onclick="findPlace(' + i + ')">' + i + '</a>');
+
+                        paginationNavList.append(liTag.append(aTag));
                     }
-                    if(data.pagination.next) {
-                        $('#divFindResultPagination').append('<a href="#" onclick="findPlace(' + data.pagination.nextPageNo + ')">&raquo;</a>');
-                    }
+                    paginationNavList.append(
+                        $('<li>', {
+                                class : data.pagination.next ? 'page-item' : 'page-item disabled'
+                            }).append(
+                            $('<a>', {href : '#', class : 'page-link', 'aria-label' : 'next'
+                                , click : function() {
+                                    findPlace(data.pagination.nextPageNo);
+                                }}).append(
+                                $('<span>', {'aria-hidden' : true}).html('&raquo;')
+                            )
+                        )
+                    );
+
+                    $('#divFindResultPagination').append(paginationNav.append(paginationNavList));
                 }
                 , error: function(jqXHR) {
                     // 요청 실패
@@ -102,30 +168,57 @@
             $('#btnFind').click(function() {
                 findPlace(1);
             });
+
+            $("#keyword").keydown(function(key) {
+                if (key.keyCode == 13) {
+                    findPlace(1);
+                    return false;
+                }
+            });
         });
+
     </script>
 
 </head>
 <body>
 
-    <form class="find-form" method="POST">
+<div class="container">
 
-        <div class="row">
-            <div class="input-field col s12">
-                <input id="keyword" type="text" name="keyword" class="validate"/>
-                <label for="keyword">장소검색</label>
-            </div>
+
+    <h3>장소 검색</h3>
+
+    <div class="row">
+        <div class="col">
+            <form>
+                <div class="form-group">
+                    <label for="keyword">검색어</label>
+                    <input id="keyword" type="text" name="keyword" class="form-control" placeholder="장소명"/>
+
+                    <small id="emailHelp" class="form-text text-muted">검색하고 싶은 장소를 입력해 주세요.</small>
+                </div>
+                <button id="btnFind" type="button" class="btn btn-primary">검색</button>
+            </form>
         </div>
+    </div>
 
-    </form>
+    <br/>
 
-    <input id="btnFind" class="login-btn waves-effect waves-light btn" type="button" value="검색"/>
+    <div class="row">
+        <div class="col">
 
-    <div id="divFindResultList"></div>
+            <div id="divFindResultList"></div>
 
-    <div id="divFindResultPagination" class="pagination"></div>
+            <div id="divFindResultPagination" class="pagination"></div>
 
-    <div id="divFindResultDetail"></div>
+        </div>
+        <div class="col">
+            <div id="divFindResultDetail"></div>
+        </div>
+    </div>
 
+</div>
+
+<script src="/webjars/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="/webjars/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 </body>
 </html>
