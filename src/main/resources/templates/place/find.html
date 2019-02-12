@@ -36,7 +36,7 @@
     <script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript">
 
-        var findPlace = function(_page) {
+        var findPlace = function(_page, _keyword) {
             /*
                 이 방법 말고... 좀더 쌔련된 방법이 필요해..
             */
@@ -45,7 +45,7 @@
                 _page = 1;
             }
 
-            var _keyword = $('#keyword').val();
+            // var _keyword = $('#keyword').val();
             if(_keyword.length <= 0) {
                 alert('검색어를 입력하세요');
                 return;
@@ -74,7 +74,7 @@
                     var contentFindResultTable = $('<table>', {class : 'table table-sm'}).append(
                         $('<thead>').append(
                             $('<tr>').append(
-                                $('<th>', {scope : 'col', colspan : 2}).text('장소 검색결과')
+                                $('<th>', {scope : 'col', colspan : 2}).text('검색어 "' + _keyword + '" 검색결과 (총 ' + data.pagination.totalCount + '건 검색)')
                             )
                         )
                     );
@@ -116,7 +116,7 @@
                             }).append(
                             $('<a>', {href : '#', class : 'page-link', 'aria-label' : 'next'
                                 , click : function() {
-                                    findPlace(data.pagination.prevPageNo);
+                                    findPlace(data.pagination.prevPageNo, _keyword);
                                 }}).append(
                                 $('<span>', {'aria-hidden' : true}).html('&laquo;')
                             )
@@ -134,7 +134,7 @@
                         } else {
                             aTag.bind('click', {page : i}
                                         , function(event) {
-                                            findPlace(event.data.page);
+                                            findPlace(event.data.page, _keyword);
                                         });
                         }
 
@@ -146,7 +146,7 @@
                             }).append(
                             $('<a>', {href : '#', class : 'page-link', 'aria-label' : 'next'
                                 , click : function() {
-                                    findPlace(data.pagination.nextPageNo);
+                                    findPlace(data.pagination.nextPageNo, _keyword);
                                 }}).append(
                                 $('<span>', {'aria-hidden' : true}).html('&raquo;')
                             )
@@ -166,12 +166,12 @@
 
         $(document).ready(function() {
             $('#btnFind').click(function() {
-                findPlace(1);
+                findPlace(1, $('#keyword').val());
             });
 
             $("#keyword").keydown(function(key) {
                 if (key.keyCode == 13) {
-                    findPlace(1);
+                    findPlace(1, $('#keyword').val());
                     return false;
                 }
             });
