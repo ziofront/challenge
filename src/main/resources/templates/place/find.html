@@ -121,7 +121,7 @@
                             )
                         );
                     });
-                    $('#divFindResultList').append(contentFindResultTable.append(contentFindResultTableTbody));
+                    $('#divFindResultList').empty().append(contentFindResultTable.append(contentFindResultTableTbody));
 
                     var paginationNav = $('<nav>', {'aria-label' : 'Page navigation'});
                     var paginationNavList = $('<ul>', {class : 'pagination justify-content-center'});
@@ -168,7 +168,7 @@
                         )
                     );
 
-                    $('#divFindResultPagination').append(paginationNav.append(paginationNavList));
+                    $('#divFindResultPagination').empty().append(paginationNav.append(paginationNavList));
                 }
                 , error: function(jqXHR) {
                     // 요청 실패

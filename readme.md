@@ -48,7 +48,6 @@
 2. 키워드로 장소 검색
     - 접속 URL : http://localhost:8081/view/place/find
     - 검색할 장소를 입력 후 검색버튼 클릭 또는 엔터.
-    - PlaceFindService에 
 
 3. 인기 검색어 TOP10
     - 접속 URL : http://localhost:8081/view/place/top10
@@ -59,7 +58,7 @@
 ### TODO
 --------
 
-1. 예외(exception)처리(controller, service 등)
+1. 예외(exception)처리 (security, controller, service 등)
 2. Spring Security Token 기반 인증 적용 후 one page 사이트로 전환.
 3. 1번을 하지 않는 다면 thymeleaf 템플릿 적용.
 4. 장소 상세정보 화면을 좀더 이쁘게(?)
