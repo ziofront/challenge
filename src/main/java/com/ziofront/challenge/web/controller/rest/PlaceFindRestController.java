@@ -8,6 +8,7 @@ import com.ziofront.challenge.web.utils.Pagination;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -27,6 +28,7 @@ public class PlaceFindRestController {
     private int defaultPaginationSize;
 
     @Autowired
+    @Qualifier("KakaoMap")
     private PlaceFindService placeService;
 
     @Autowired
@@ -34,7 +36,6 @@ public class PlaceFindRestController {
 
     @GetMapping("/find")
     public ResponseEntity find(@RequestParam(value = "keyword", defaultValue = "None") String keyword
-                               // 카카오맵 api에 버그인건지 page size를 15로 하지 않으면 특정 페이지 이후로 동일한 목록이 나온다.
             , @PageableDefault(page = 1, size = 15) Pageable pageable
             , Model model) throws Exception {
 

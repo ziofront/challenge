@@ -24,7 +24,7 @@ import java.util.Map;
 /**
  * @author jiho
  */
-@Service
+@Service("KakaoMap")
 public class KakaoPlaceService implements PlaceFindService {
 
     private static Logger LOG = LoggerFactory.getLogger(KakaoPlaceService.class);
