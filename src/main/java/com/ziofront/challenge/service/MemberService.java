@@ -24,4 +24,15 @@ public class MemberService {
         memberRepository.save(member);
 
     }
+
+
+    /**
+     * @param loginId
+     * @return
+     */
+    public Member getMember(String loginId) {
+
+        return memberRepository.findByLoginId(loginId);
+    }
+
 }

@@ -3,6 +3,7 @@ package com.ziofront.challenge.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -46,7 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/**"
+                .antMatchers("/api/place/**"
                         , "/view/**").hasRole("BASIC")
                 .anyRequest().authenticated()
 
@@ -66,6 +67,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/login")
                 .permitAll()
 
+                .and().authorizeRequests()
+                .antMatchers("/api/v1/member/login").permitAll()
+
                 /*
                     로컬 H2 설정
                  */
@@ -80,10 +84,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .headers().frameOptions().sameOrigin()
 
                 .and()
-                .csrf().ignoringAntMatchers("/h2-console/**").disable()
+                .csrf().ignoringAntMatchers("/h2-console/**", "/api/v1/member/login").disable()
         ;
 
         http.authorizeRequests().antMatchers("/hello/**").anonymous().anyRequest().permitAll();
 
+    }
+
+
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 }

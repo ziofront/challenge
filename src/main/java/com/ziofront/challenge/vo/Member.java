@@ -1,10 +1,7 @@
 package com.ziofront.challenge.vo;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -18,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "MEMBER_BASE")
+@ToString
 public class Member {
 
     @Id
@@ -32,6 +30,7 @@ public class Member {
     private String loginId;
 
     @Column(name = "LOGIN_PASSWORD", nullable = false)
+    @ToString.Exclude
     private String loginPassword;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
