@@ -1,13 +1,76 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8"/>
-    <title>Hello Thymeleaf</title></head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+
+        var login = function() {
+
+            console.log('username='+$('#username').val());
+            console.log('password='+$('#password').val());
+
+            var _data = JSON.stringify({
+                username : $('#username').val()
+                , password : $('#password').val()
+            });
+
+            console.log('_data='+_data);
+
+            $.ajax({
+                // url: '/api/v1/member/login'
+                url: '/oauth/token/'
+                , async: true
+                , type: 'POST'
+                , contentType: "application/json"
+                , dataType: 'json'
+                , data: _data
+                , beforeSend: function(jqXHR) {
+                }
+                , success: function(data) {
+                    console.log('<<<<< success >>>>>');
+                    console.log('username=' + data.username);
+                    console.log('token=' + data.token);
+                }
+                , error: function(jqXHR) {
+                    console.log('<<<<< error >>>>>');
+                    console.log('jqXHR='+JSON.stringify(jqXHR));
+                }
+                , complete: function(jqXHR) {
+                    console.log('<<<<< complete >>>>>');
+                    console.log('jqXHR='+JSON.stringify(jqXHR));
+                }
+            });
+        };
+
+        $(document).ready(function() {
+            $('#btnLogin').click(function() {
+                login();
+            });
+
+            $("#username").keydown(function(key) {
+                if (key.keyCode == 13) {
+                    login();
+                    return false;
+                }
+            });
+        });
+    </script>
+
+</head>
 <body>
-<dl>
-    <dt>id</dt>
-    <dd th:text="${testData.id}"></dd>
-    <dt>value</dt>
-    <dd th:text="${testData.name}"></dd>
-</dl>
+
+
+
+<form>
+    <input type="text" id="username" name="username" />
+    <input type="password" id="password" name="password" />
+
+    <input type="button" id="btnLogin" name="login" value="LOGIN"/>
+</form>
+
 </body>
 </html>
