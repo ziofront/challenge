@@ -91,8 +91,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()
         ;
 
-        http.authorizeRequests().antMatchers("/hello/**").anonymous().anyRequest().permitAll();
-
     }
 
 }
