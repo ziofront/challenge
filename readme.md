@@ -55,10 +55,3 @@
 
 
 
-### TODO
---------
-
-1. 예외(exception)처리 (security, controller, service 등)
-2. Spring Security Token 기반 인증 적용 후 one page 사이트로 전환.
-3. 1번을 하지 않는 다면 thymeleaf 템플릿 적용.
-4. 장소 상세정보 화면을 좀더 이쁘게(?)
